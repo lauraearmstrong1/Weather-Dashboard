@@ -8,22 +8,33 @@
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"
             integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+   
     <title>Weather Dashboard</title>
 </head>
 
 <body>
-    <header class="header">Weather Dashboard</header>
-    <div class="container left">
+    <header class="header c0l-sm-12 bg-dark text-xl-center text-white">
+        <h1>Weather Dashboard</h1>
+    </header>
+    <div class="row">
+    <div id="cities" class="container col-sm-3">
+        <input id="search" class="input col-sm-12">
+        <button id="searchBTN" class="button">search</button>
+        <div class="list">
+
+        </div>
         <!--Form and buttons on the left-->
     </div>
-    <div class="Jumbotron">
+    <div id="info" class="col-sm-9">
         <!--Jumbotron top right-->
     </div>
-    <div class="container right">
+    <div id="fiveDay" class="container">
         <!--Row/cards bottom right-->
+    </div>
     </div>
 
     <script src="assets/style.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 </body>
 
 </html>
