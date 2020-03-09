@@ -4,4 +4,4 @@ The user is able to search for a city and find information regarding the weather
 
 https://github.com/lauraearmstrong1/Weather-Dashboard
 
-![Image of Weather Dashboard](assets\CurrentWeather.PNG)
+![Image of Weather Dashboard](assets/CurrentWeather.PNG)
