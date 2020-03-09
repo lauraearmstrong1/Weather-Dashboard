@@ -56,22 +56,23 @@ $(document).ready(function () {
     function current(cityToSearch, age) {
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityToSearch + "&appid=c55054d69fe933e8a6f2b946136a8302&units=imperial"
         $.get(queryURL).then(function (results) {
+            //var uv = "http://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
             var currentWeather = $('<div>').addClass("card")
             var now = moment().format('l');
             var $h2 = $("<h2>").text(results.name + " (" + now + ")");
             $h2.text(results.name + " (" + now + ")")
             var icon = $("<img src='http://openweathermap.org/img/wn/" + results.weather[0].icon + "@2x.png'>")
-            var uv = $()
             $h2.append(icon)
             var temp = $("<div>").text("Temperature: " + results.main.temp + " \xB0F")
             var humidity = $("<div>").text("Humidity: " + results.main.humidity + "%")
             var windSpeed = $("<div>").text("Wind Speed: " + results.wind.speed + " MPH")
-            console.log(results);
+            //var uvi = $("<div>").text("UV Index: " + uv)
             fiveDay(results.id)
             currentWeather.append($h2)
             currentWeather.append(temp)
             currentWeather.append(humidity)
             currentWeather.append(windSpeed)
+           // currentWeather.append(uvi)
             $("#info").text("") //empties the previous current weather
             $("#info").append(currentWeather)
             if (age === "new") {
