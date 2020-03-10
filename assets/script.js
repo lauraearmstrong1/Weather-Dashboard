@@ -1,10 +1,15 @@
 $(document).ready(function () {
 
-    $(".list").on("click", ".list-group-item", function () { //when search btn is clicked then the city name is added to the list
+    //Calling last searched city out of local storage
+    var weather = JSON.parse(localStorage.getItem("weather"))
+    current(weather[weather.length - 1])
+
+    //When the city is searched, it is added t the list of searched cities
+    $(".list").on("click", ".list-group-item", function () {
         var cityClicked = $(this).attr("data-name")
-        var cityID = $(this).attr("data-id")
         current(cityClicked, "old")
     })
+
     function cityInfo() {
 
         var city = JSON.parse(localStorage.getItem("weather"))
@@ -23,10 +28,10 @@ $(document).ready(function () {
         }
     }
     $("#searchBTN").click(function () {
+        event.preventDefault();
         var cityToSearch = $("#search").val()
         var cityID = $("#search").val()
         current(cityToSearch, "new")
-        fiveDay(cityID)
     })
 
     function fiveDay(cityID) {
@@ -38,7 +43,7 @@ $(document).ready(function () {
                 var icon = $("<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png'>")
                 var current = moment(response.list[i].dt_txt)
                 if (response.list[i].dt_txt.includes("15:00:00")) {
-                    var day = $("<div>").addClass("card col-sm-2 ml-1 float-left bg-primary")
+                    var day = $("<div>").addClass("card col-sm-2 ml-1 float-left text-white bg-primary")
                     $("#info").append(day)
                     var date = $('<div>').text(current.format('l'))
                     var temp = $('<div>').text("Temp: " + response.list[i].main.temp + " \xB0F")
@@ -56,8 +61,8 @@ $(document).ready(function () {
     function current(cityToSearch, age) {
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityToSearch + "&appid=c55054d69fe933e8a6f2b946136a8302&units=imperial"
         $.get(queryURL).then(function (results) {
-            //var uv = "http://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
-            var currentWeather = $('<div>').addClass("card")
+
+            var currentWeather = $('<div>').addClass("card pl-2")
             var now = moment().format('l');
             var $h2 = $("<h2>").text(results.name + " (" + now + ")");
             $h2.text(results.name + " (" + now + ")")
@@ -66,13 +71,33 @@ $(document).ready(function () {
             var temp = $("<div>").text("Temperature: " + results.main.temp + " \xB0F")
             var humidity = $("<div>").text("Humidity: " + results.main.humidity + "%")
             var windSpeed = $("<div>").text("Wind Speed: " + results.wind.speed + " MPH")
-            //var uvi = $("<div>").text("UV Index: " + uv)
+
             fiveDay(results.id)
             currentWeather.append($h2)
             currentWeather.append(temp)
             currentWeather.append(humidity)
             currentWeather.append(windSpeed)
-           // currentWeather.append(uvi)
+
+            var uv = "http://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
+            $.get(uv).then(function (uvresults) {
+                var uvnum = $("<span>").text(uvresults.value)
+                var uvi = $("<div>").text("UV Index: ")
+                currentWeather.append(uvi)
+
+                if (uvresults.value <= 2) {
+                    var fair = $(uvnum).addClass("badge bg-success text-white")
+                    uvi.append(fair)
+                }
+                if (uvresults.value > 2 && uvresults.value < 7) {
+                    var mod = $(uvnum).addClass("badge bg-warning")
+                    uvi.append(mod)
+                }
+                if (uvresults.value > 7) {
+                    var sev = $(uvnum).addClass("badge bg-danger text-white")
+                    uvi.append(sev)
+                }
+            })
+
             $("#info").text("") //empties the previous current weather
             $("#info").append(currentWeather)
             if (age === "new") {
