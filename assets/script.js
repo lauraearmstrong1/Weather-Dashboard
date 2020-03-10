@@ -4,12 +4,13 @@ $(document).ready(function () {
     var weather = JSON.parse(localStorage.getItem("weather"))
     current(weather[weather.length - 1])
 
-    //When the city is searched, it is added t the list of searched cities
+    //When the city is searched, it is added to the list of searched cities
     $(".list").on("click", ".list-group-item", function () {
         var cityClicked = $(this).attr("data-name")
         current(cityClicked, "old")
     })
 
+    //Searched city becomes a card in a list
     function cityInfo() {
 
         var city = JSON.parse(localStorage.getItem("weather"))
@@ -34,6 +35,7 @@ $(document).ready(function () {
         current(cityToSearch, "new")
     })
 
+    //Five-day forecast
     function fiveDay(cityID) {
         var fiveDayURL = "https://api.openweathermap.org/data/2.5/forecast?id=" + cityID + "&appid=c55054d69fe933e8a6f2b946136a8302&units=imperial"
         $.get(fiveDayURL).then(function (response) {
@@ -58,6 +60,7 @@ $(document).ready(function () {
         })
     }
 
+    //Current city's information and icon
     function current(cityToSearch, age) {
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + cityToSearch + "&appid=c55054d69fe933e8a6f2b946136a8302&units=imperial"
         $.get(queryURL).then(function (results) {
@@ -78,6 +81,7 @@ $(document).ready(function () {
             currentWeather.append(humidity)
             currentWeather.append(windSpeed)
 
+            //UV Index
             var uv = "http://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
             $.get(uv).then(function (uvresults) {
                 var uvnum = $("<span>").text(uvresults.value)
@@ -98,7 +102,8 @@ $(document).ready(function () {
                 }
             })
 
-            $("#info").text("") //empties the previous current weather
+            //Empties the previous current weather
+            $("#info").text("") 
             $("#info").append(currentWeather)
             if (age === "new") {
                 var local = JSON.parse(localStorage.getItem("weather"))
