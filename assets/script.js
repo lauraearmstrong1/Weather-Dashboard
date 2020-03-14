@@ -45,7 +45,7 @@ $(document).ready(function () {
             var title = $("<h3>").text("5-Day Forecast")
             $("#info").append(title)
             for (var i = 0; i < response.list.length; i++) {
-                var icon = $("<img src='http://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png'>")
+                var icon = $("<img src='https://openweathermap.org/img/wn/" + response.list[i].weather[0].icon + "@2x.png'>")
                 var current = moment(response.list[i].dt_txt)
                 if (response.list[i].dt_txt.includes("15:00:00")) {
                     var day = $("<div>").addClass("card col-sm-2 ml-1 float-left text-white bg-primary")
@@ -72,7 +72,7 @@ $(document).ready(function () {
             var now = moment().format('l');
             var $h2 = $("<h2>").text(results.name + " (" + now + ")");
             $h2.text(results.name + " (" + now + ")")
-            var icon = $("<img src='http://openweathermap.org/img/wn/" + results.weather[0].icon + "@2x.png'>")
+            var icon = $("<img src='https://openweathermap.org/img/wn/" + results.weather[0].icon + "@2x.png'>")
             $h2.append(icon)
             var temp = $("<div>").text("Temperature: " + results.main.temp + " \xB0F")
             var humidity = $("<div>").text("Humidity: " + results.main.humidity + "%")
@@ -85,7 +85,7 @@ $(document).ready(function () {
             currentWeather.append(windSpeed)
 
             //UV Index
-            var uv = "http://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
+            var uv = "https://api.openweathermap.org/data/2.5/uvi?appid=c55054d69fe933e8a6f2b946136a8302&lat=" + results.coord.lat + "&lon=" + results.coord.lon
             $.get(uv).then(function (uvresults) {
                 var uvnum = $("<span>").text(uvresults.value)
                 var uvi = $("<div>").text("UV Index: ")
