@@ -1,8 +1,11 @@
 $(document).ready(function () {
 
     //Calling last searched city out of local storage
-    var weather = JSON.parse(localStorage.getItem("weather"))
+    var weather = JSON.parse(localStorage.getItem("weather")) || []
+    if (weather[weather.length] > 0) {
     current(weather[weather.length - 1])
+    }
+
 
     //When the city is searched, it is added to the list of searched cities
     $(".list").on("click", ".list-group-item", function () {
@@ -120,6 +123,5 @@ $(document).ready(function () {
         })
     }
     cityInfo()
-
 });
 
