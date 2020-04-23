@@ -122,6 +122,13 @@ $(document).ready(function () {
             }
         })
     }
+    function start(){
+        var previous = JSON.parse(localStorage.getItem("weather"))
+        if(previous){
+            current(previous[previous.length-1], "old")
+        }
+    }
     cityInfo()
+    start()
 });
 
